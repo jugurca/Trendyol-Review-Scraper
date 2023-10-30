@@ -1,3 +1,12 @@
+import streamlit as st
+import os
+import sys
+
+@st.cache_resource
+def installff():
+  os.system('sbase install chrome')
+  os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/chrome')
+_ = installff()
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -5,12 +14,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
-import streamlit as st
 import time
 import pandas as pd
 from user_agent import generate_user_agent
-import chromedriver_autoinstaller
-chromedriver_autoinstaller.install()
+
+
 st.set_page_config(
     page_title="Review Scraper",
     page_icon=":star2:",
