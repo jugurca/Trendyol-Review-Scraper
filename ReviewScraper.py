@@ -4,8 +4,8 @@ import sys
 
 @st.cache_resource
 def installff():
-  os.system('sbase install chrome')
-  os.system('ln -s /home/appuser/venv/lib/python3.7/site-packages/seleniumbase/drivers/geckodriver /home/appuser/venv/bin/chrome')
+  os.system('sbase install chromedriver')
+  os.system('ln -s /home/appuser/venv/lib/python3.11/site-packages/seleniumbase/drivers/chromedriver /home/appuser/venv/bin/chromedriver')
 _ = installff()
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -84,7 +84,7 @@ progress_bar=st.progress(0)
 if st.button("Get the Data"):
     with st.spinner("The process is ongoing..."):
         if url:
-            driver = webdriver.Chrome()        
+            driver = webdriver.Chrome(options=options)        
             wait= WebDriverWait(driver,15)
             feedback_data = []
             try:
