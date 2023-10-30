@@ -9,12 +9,10 @@ def installff():
 
 _ = installff()
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import FirefoxOptions
 import time
 import pandas as pd
 from user_agent import generate_user_agent
@@ -54,7 +52,7 @@ with col3:
 
 
 user_agent = generate_user_agent()
-options = Options()
+options = FirefoxOptions()
 options.add_argument('--disable-gpu')
 options.add_argument('--headless')
 options.add_argument('--start-maximized')
@@ -85,7 +83,7 @@ progress_bar=st.progress(0)
 if st.button("Get the Data"):
     with st.spinner("The process is ongoing..."):
         if url:
-            driver = webdriver.Chrome(options=options)        
+            driver = webdriver.Firefox(options=options)        
             wait= WebDriverWait(driver,15)
             feedback_data = []
             try:
