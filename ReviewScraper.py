@@ -53,12 +53,12 @@ options.add_argument('--window-size=1920,926')
 options.add_argument("--no-sandbox")
 options.add_argument("--incognito")
 options.add_argument(f"user-agent={user_agent}")
-service = Service(GeckoDriverManager().install())
-driver = webdriver.Firefox(
-    options=options,
-    service=service,
-)
 
+@st.cache_resource
+def get_driver():
+    return webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=options)
+    
+driver = get_driver()
 
 st.title("Trendyol Review Scraper")
 url = st.text_input("Enter Trendyol Product Review URL:")
