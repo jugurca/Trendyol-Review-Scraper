@@ -19,7 +19,6 @@ st.set_page_config(
 
 hide_style = """
         <style>
-        #MainMenu {visibility: hidden;}
         header {visibility: hidden;}
         footer {visibility: hidden;}
         </style>
