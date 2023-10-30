@@ -9,8 +9,8 @@ import streamlit as st
 import time
 import pandas as pd
 from user_agent import generate_user_agent
-
-
+import chromedriver_autoinstaller
+chromedriver_autoinstaller.install()
 st.set_page_config(
     page_title="Review Scraper",
     page_icon=":star2:",
@@ -53,9 +53,7 @@ options.add_argument('--window-size=1920,1080')
 options.add_argument("--no-sandbox")
 options.add_argument("--incognito")
 options.add_argument(f"user-agent={user_agent}")
-@st.cache_resource
-def get_driver():
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
 
 st.title("Trendyol Review Scraper")
 url = st.text_input("Enter Trendyol Product Review URL:")
@@ -78,7 +76,7 @@ progress_bar=st.progress(0)
 if st.button("Get the Data"):
     with st.spinner("The process is ongoing..."):
         if url:
-            driver = get_driver()        
+            driver = webdriver.Chrome()        
             wait= WebDriverWait(driver,15)
             feedback_data = []
             try:
