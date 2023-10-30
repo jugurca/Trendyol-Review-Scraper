@@ -55,7 +55,7 @@ options.add_argument("--incognito")
 options.add_argument(f"user-agent={user_agent}")
 service = Service(GeckoDriverManager().install())
 driver = webdriver.Firefox(
-    options=firefoxOptions,
+    options=options,
     service=service,
 )
 
