@@ -52,7 +52,7 @@ options.add_argument("--incognito")
 options.add_argument(f"user-agent={user_agent}")
 
 def get_driver():
-    return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    return webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type="chromium").install()), options=options)
     
 driver = get_driver()
 
