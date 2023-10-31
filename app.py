@@ -146,7 +146,7 @@ if st.button("Get the Data"):
                     progress_bar.progress(g/x)
                     try:
                         CheckElement=wait.until(EC.presence_of_element_located((By.XPATH,'//*[@id="rating-and-review-app"]/div/div/div/div[3]/div/div/div[3]/div[2]/div[' + str(a) + ']/div[2]')))
-                        a=a+5
+                        a=a+10
                         if CheckElement is not None:
                             continue
                     except:
