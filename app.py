@@ -51,7 +51,7 @@ options.add_argument("--no-sandbox")
 options.add_argument("--incognito")
 options.add_argument(f"user-agent={user_agent}")
 
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def get_driver():
     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     
