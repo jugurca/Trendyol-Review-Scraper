@@ -1,2 +1,2 @@
 chromium
-chromedriver==114.0.5735.90
+chrome-driver==114.0.5735.90
