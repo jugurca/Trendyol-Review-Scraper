@@ -6,10 +6,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from bs4 import BeautifulSoup
 import time
 import pandas as pd
 from user_agent import generate_user_agent
-
 
 st.set_page_config(
     page_title="Review Scraper",
@@ -78,7 +78,7 @@ if st.button("Get the Data"):
     with st.spinner("The process is ongoing..."):
         if url:       
             wait= WebDriverWait(driver,15)
-            feedback_data = []
+            df = []
             try:
                 driver.get(url)
                 driver.maximize_window()
@@ -152,27 +152,19 @@ if st.button("Get the Data"):
                     except:
                         break
                 progress_bar.empty()
-                count=1
-                with st.spinner("The found reviews are being counted..."):
-                    try:
-                        while True:                                                        
-                            FeedBack=wait.until(EC.presence_of_element_located((By.XPATH,'//*[@id="rating-and-review-app"]/div/div/div/div[3]/div/div/div[3]/div[2]/div[' + str(count) + ']/div[2]')))
-                            count += 1
-                    except:
-                        st.success(f"{count} reviews found.", icon="✅")
-                j=1
+                page_source = driver.page_source
+                soup = BeautifulSoup(page_source, 'html.parser')
+                comment_elements = soup.find_all(class_='comment')
+                count=len(comment_elements)
+                st.success(f"{count} reviews found.", icon="✅")
+                for element in comment_elements:
+                    paragraph = element.find('p')
+                    if paragraph:
+                        df.append(paragraph.get_text())
+                Review_df = pd.DataFrame(df, columns=["reviews"])
+                st.dataframe(Review_df)
                 try:
-                    for j in range(1,count+1):                                                        
-                        FeedBack=wait.until(EC.presence_of_element_located((By.XPATH,'//*[@id="rating-and-review-app"]/div/div/div/div[3]/div/div/div[3]/div[2]/div[' + str(j) + ']/div[2]')))
-                        feedback_data.append(FeedBack.text)
-                        progress_bar.progress(j / count)
-                except:
-                    pass
-                progress_bar.empty()
-                feedback_df = pd.DataFrame(feedback_data, columns=["reviews"])
-                st.dataframe(feedback_df)
-                try:
-                    feedback_df.to_excel(f"{Review}.xlsx", index=False) 
+                    Review_df.to_excel(f"{Review}.xlsx", index=False) 
                     Excel_Name = f"{Review}.xlsx"
                     with open(Excel_Name, "rb") as File:
                         st.download_button(
