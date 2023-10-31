@@ -51,9 +51,13 @@ options.add_argument("--no-sandbox")
 options.add_argument("--incognito")
 options.add_argument(f"user-agent={user_agent}")
 
-#@st.cache_resource(show_spinner=False)
+chrome_driver = ChromeDriverManager(chrome_type="chromium").install()
+def start_driver():
+    return webdriver.Chrome(service=Service(chrome_driver), options=options)
 def get_driver():
-    return webdriver.Chrome(service=Service(ChromeDriverManager(chrome_type="chromium").install()), options=options)
+    if 'driver' not in st.session_state:
+        st.session_state.driver = start_driver()
+    return st.session_state.driver
     
 driver = get_driver()
 
